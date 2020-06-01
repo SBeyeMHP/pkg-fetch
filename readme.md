@@ -1,5 +1,11 @@
 # pkg-fetch
 
-Github Releases page of this project contains base binaries,
-used by `pkg` to create executables. `pkg-fetch` npm package
-downloads base binaries or compiles them from source.
+This fork only exists so that there can be valetudo binaries with newer nodejs versions than currently available.
+
+You should not use this. It is hackish and undocumented
+
+```
+npm install
+npm run babel
+npm run start
+```
