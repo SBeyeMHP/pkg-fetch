@@ -63,10 +63,6 @@
     "start": "node lib-es5/upload.js",
     "test": "ava"
   },
-  "eslintConfig": {
-    "extends": "klopov",
-    "parser": "babel-eslint"
-  },
   "ava": {
     "failFast": true,
     "files": [
