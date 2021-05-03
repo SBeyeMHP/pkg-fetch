@@ -1,6 +1,7 @@
 ARG TARGET_TOOLCHAIN_ARCH
+ARG TARGET_BASEIMAGE
 
-FROM muslcc/x86_64:$TARGET_TOOLCHAIN_ARCH-linux-musl
+FROM $TARGET_BASEIMAGE:$TARGET_TOOLCHAIN_ARCH
 
 ARG PKG_FETCH_OPTION_a
 ARG PKG_FETCH_OPTION_n
@@ -35,4 +36,4 @@ COPY . ./
 
 RUN yarn install
 
-RUN yarn start --arch $PKG_FETCH_OPTION_a --node-range $PKG_FETCH_OPTION_n --platform $PKG_FETCH_OPTION_p --output dist
+RUN yarn start --force-build --arch $PKG_FETCH_OPTION_a --node-range $PKG_FETCH_OPTION_n --platform $PKG_FETCH_OPTION_p --output dist

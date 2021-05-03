@@ -54,8 +54,8 @@ function getConfigureArgs(major: number, targetPlatform: string): string[] {
   // bundled npm package manager
   args.push('--without-npm');
 
-  // Small ICU
-  args.push('--with-intl=small-icu');
+  // No ICU
+  args.push('--without-intl');
 
   return args;
 }
@@ -177,6 +177,17 @@ async function compileOnUnix(
 
   if (cpu) {
     args.push('--dest-cpu', cpu);
+
+    if(cpu === "arm" && hostArch !== targetArch) {
+      // https://github.com/v8/v8/blob/dc712da548c7fb433caed56af9a021d964952728/src/codegen/arm/assembler-arm.cc#L178
+      // This error gets triggered for at least node v14 and v18 on linux if we don't explicitly set the fpu
+      args.push('--with-arm-float-abi=hard');
+      args.push('--with-arm-fpu=vfpv3');
+      // Cross-compiling node v16 for armv7 fails with the following error if we don't pass these CFLAGs
+      // "Error: selected processor does not support `usat r3,#8,r3' in ARM mode"
+      process.env.CFLAGS = `${process.env.CFLAGS ?? ""} -marm -march=armv7ve -mcpu=cortex-a7`;
+      process.env.CXXFLAGS = `${process.env.CXXFLAGS ?? ""} -marm -march=armv7ve -mcpu=cortex-a7`;
+    }
   }
 
   if (hostArch !== targetArch) {

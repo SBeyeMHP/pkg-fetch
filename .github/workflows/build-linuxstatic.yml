@@ -10,13 +10,18 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        target-node: [10, 12, 14, 16]
-        target-arch: [x64, arm64]
+        target-node: [14, 16]
+        target-arch: [x64, arm64, armv7]
         include:
           - target-arch: x64
-            target-toolchain: x86_64
+            target-toolchain: x86_64-linux-musl
+            target-baseimage: muslcc/x86_64
           - target-arch: arm64
-            target-toolchain: aarch64
+            target-toolchain: aarch64-linux-musl
+            target-baseimage: muslcc/x86_64
+          - target-arch: armv7
+            target-toolchain: arm-linux-musleabihf
+            target-baseimage: muslcc/i686
 
     steps:
       - uses: actions/checkout@v2
@@ -29,6 +34,7 @@ jobs:
         with:
           build-args: |
             TARGET_TOOLCHAIN_ARCH=${{ matrix.target-toolchain }}
+            TARGET_BASEIMAGE=${{ matrix.target-baseimage }}
             PKG_FETCH_OPTION_a=${{ matrix.target-arch }}
             PKG_FETCH_OPTION_n=node${{ matrix.target-node }}
             PKG_FETCH_OPTION_p=linuxstatic
