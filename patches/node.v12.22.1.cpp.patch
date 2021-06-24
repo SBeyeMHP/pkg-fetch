@@ -547,7 +547,7 @@ index 0000000000..fb2d47f52b
  }
  #else
  // UNIX
-@@ -123,6 +125,73 @@ int main(int argc, char* argv[]) {
+@@ -123,6 +125,76 @@ int main(int argc, char* argv[]) {
    // calls elsewhere in the program (e.g., any logging from V8.)
    setvbuf(stdout, nullptr, _IONBF, 0);
    setvbuf(stderr, nullptr, _IONBF, 0);
@@ -602,6 +602,9 @@ index 0000000000..fb2d47f52b
 +  "// BAKERY // BAKERY // BAKERY // BAKERY // BAKERY // BAKERY " \
 +  "// BAKERY // BAKERY // BAKERY // BAKERY // BAKERY // BAKERY ";
 +
++#ifdef __clang__
++__attribute__((optnone))
++#endif
 +int reorder(int argc, char** argv) {
 +  int i;
 +  char** nargv = new char*[argc + 64];
