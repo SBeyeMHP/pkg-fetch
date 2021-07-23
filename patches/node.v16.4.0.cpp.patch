@@ -141,7 +141,7 @@
 index 0000000000..fb2d47f52b
 --- /dev/null
 +++ node/lib/internal/bootstrap/pkg.js
-@@ -0,0 +1,45 @@
+@@ -0,0 +1,49 @@
 +'use strict';
 +
 +const {
@@ -162,6 +162,10 @@ index 0000000000..fb2d47f52b
 +    if (!PRELUDE_SIZE) {
 +      // no prelude - remove entrypoint from argv[1]
 +      process.argv.splice(1, 1);
++      return { undoPatch: true };
++    }
++    if (process.argv[2] === "--ignore-payload") {
++      process.argv.splice(1, 2);
 +      return { undoPatch: true };
 +    }
 +    var filesize = fs.fstatSync(fd).size;
